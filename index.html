@@ -101,49 +101,13 @@
 
     <div class="section-title">一. 句子填空</div>
 
-    <!-- 句子 1 -->
-    <div class="question">
-      <div class="english">
-        1. Technology is a powerful tool to <input type="text" id="s1_1"> students because it can make lessons more <input type="text" id="s1_2">. Students can do <input type="text" id="s1_3"> using online resources, and they can study whenever and wherever they want at their own <input type="text" id="s1_4">. They can learn skills useful for their future jobs; for example, they learn to write reports using a <input type="text" id="s1_5">.
-      </div>
-      <div class="translation">科技是一个能增加学生参与度的重要工具，因为它可以让课程变得更有趣。学生可以用网络资源作研究，按自己的节奏随时随地学习，还能学会未来工作需要的技能，比如使用文字处理器写报告。</div>
-      <button class="check-btn" onclick="checkSentence('s1', ['engage', 'interesting', 'research', 'pace', 'word processor'])">Check</button>
-      <div class="feedback" id="fb_s1"></div>
-    </div>
-
-    <!-- 句子 2 -->
-    <div class="question">
-      <div class="english">
-        2. Technology is no <input type="text" id="s2_1"> for a real teacher because an <input type="text" id="s2_2"> teacher knows what materials to choose and learners need a <input type="text" id="s2_3"> course.
-      </div>
-      <div class="translation">科技无法取代老师，因为有经验的老师知道如何选材料，而且学生需要有结构的课程。</div>
-      <button class="check-btn" onclick="checkSentence('s2', ['substitute', 'experienced', 'structured'])">Check</button>
-      <div class="feedback" id="fb_s2"></div>
-    </div>
-
-    <!-- 句子 3 -->
-    <div class="question">
-      <div class="english">
-        3. Single-sex schools reduce <input type="text" id="s3_1"> and encourage pupils to concentrate on their studies, thus preventing <input type="text" id="s3_2"> problems. This environment also allows more <input type="text" id="s3_3"> among students and gives them more <input type="text" id="s3_4"> to choose subjects freely without gender prejudice.
-      </div>
-      <div class="translation">单一性别学校减少分心、鼓励专注学习、防止纪律问题，并促进平等和自由选课。</div>
-      <button class="check-btn" onclick="checkSentence('s3', ['distractions', 'discipline', 'equality', 'opportunity'])">Check</button>
-      <div class="feedback" id="fb_s3"></div>
-    </div>
-
-    <!-- 句子 4 -->
-    <div class="question">
-      <div class="english">
-        4. Boys and girls in mixed schools are able to <input type="text" id="s4_1"> from each other and experience different types of <input type="text" id="s4_2"> and talent. They learn to live and work together from an early age and are consequently <input type="text" id="s4_3"> developed in their relations with the opposite sex.
-      </div>
-      <div class="translation">男女混合学校的学生可以彼此学习、体验不同技能与天赋，并在与异性的交往中提升情商。</div>
-      <button class="check-btn" onclick="checkSentence('s4', ['learn', 'skill', 'emotionally'])">Check</button>
-      <div class="feedback" id="fb_s4"></div>
-    </div>
+    <div class="question" id="q1"></div>
+    <div class="question" id="q2"></div>
+    <div class="question" id="q3"></div>
+    <div class="question" id="q4"></div>
 
     <div class="section-title">二. 教育类短语（中译英 + 雅思例句）</div>
 
-    <!-- 短语练习 -->
     <div class="question">
       <div class="english">1. 上大学：</div>
       <input type="text" id="p1">
@@ -237,35 +201,88 @@
       }
     };
 
-    function checkSentence(id, answers) {
-      const feedback = document.getElementById("fb_" + id);
-      const inputs = answers.map((_, i) => document.getElementById(`${id}_${i + 1}`));
-      const values = inputs.map(input => input.value.trim().toLowerCase());
-      const correct = answers.every((ans, i) => values[i] === ans.toLowerCase());
-      feedback.innerHTML = correct
-        ? "<span class='correct'>✔ 正确！</span>"
-        : "<span class='incorrect'>✘ 错误</span> 正确答案：" + answers.join(" / ");
-    }
-
     function checkPhrase(id, answer) {
       const feedback = document.getElementById("fb_" + id);
       const value = document.getElementById(id).value.trim().toLowerCase();
       const correctAnswer = answer.toLowerCase();
       const example = examples[id];
-
-      let html = "";
-      if (value === correctAnswer) {
-        html += `<span class='correct'>✔ 正确！</span>`;
-      } else {
-        html += `<span class='incorrect'>✘ 错误</span> 正确答案：${answer}`;
-      }
-
+      let html = value === correctAnswer
+        ? `<span class='correct'>✔ 正确！</span>`
+        : `<span class='incorrect'>✘ 错误</span> 正确答案：${answer}`;
       if (example) {
         html += `<div class='example'>例句：${example.en}<br>翻译：${example.zh}</div>`;
       }
-
       feedback.innerHTML = html;
     }
+
+    function getRandomIndexes(array, count) {
+      const set = new Set();
+      while (set.size < count) {
+        const i = Math.floor(Math.random() * array.length);
+        if (!array[i].match(/^[.,]$/)) set.add(i);
+      }
+      return Array.from(set);
+    }
+
+    function renderSentence(id, sentence, translation, containerId, blanksCount = 5) {
+      const container = document.getElementById(containerId);
+      const words = sentence.split(" ");
+      const blankIndexes = getRandomIndexes(words, blanksCount);
+      const answers = {};
+      const html = words.map((word, i) => {
+        const clean = word.replace(/[.,]/g, "");
+        const punct = word.endsWith(",") ? "," : word.endsWith(".") ? "." : "";
+        if (blankIndexes.includes(i)) {
+          const inputId = `${id}_${i}`;
+          answers[inputId] = clean.toLowerCase();
+          return `<input type="text" id="${inputId}" placeholder="...">${punct}`;
+        }
+        return word;
+      }).join(" ");
+
+      container.innerHTML = `
+        <div class="english">${html}</div>
+        <div class="translation">${translation}</div>
+        <button class="check-btn" onclick='checkSentence("${id}", ${JSON.stringify(answers)})'>Check</button>
+        <div class="feedback" id="fb_${id}"></div>
+      `;
+    }
+
+    function checkSentence(id, answers) {
+      let allCorrect = true;
+      for (const [inputId, correct] of Object.entries(answers)) {
+        const userInput = document.getElementById(inputId).value.trim().toLowerCase();
+        if (userInput !== correct) allCorrect = false;
+      }
+      const feedback = document.getElementById("fb_" + id);
+      feedback.innerHTML = allCorrect
+        ? "<span class='correct'>✔ 全部正确！</span>"
+        : `<span class='incorrect'>✘ 有错误</span> 正确答案：${Object.values(answers).join(" / ")}`;
+    }
+
+    renderSentence("s1",
+      "Technology is a powerful tool to engage students because it can make lessons more interesting. Students can do research using online resources, and they can study whenever and wherever they want at their own pace. They can learn skills useful for their future jobs; for example, they learn to write reports using a word processor.",
+      "科技是一个能增加学生参与度的重要工具，因为它可以让课程变得更有趣。学生可以用网络资源作研究，按自己的节奏随时随地学习，还能学会未来工作需要的技能，比如使用文字处理器写报告。",
+      "q1"
+    );
+
+    renderSentence("s2",
+      "Technology is no substitute for a real teacher because an experienced teacher knows what materials to choose and learners need a structured course.",
+      "科技无法取代老师，因为有经验的老师知道如何选材料，而且学生需要有结构的课程。",
+      "q2"
+    );
+
+    renderSentence("s3",
+      "Single-sex schools reduce distractions and encourage pupils to concentrate on their studies, thus preventing discipline problems. This environment also allows more equality among students and gives them more opportunity to choose subjects freely without gender prejudice.",
+      "单一性别学校减少分心、鼓励专注学习、防止纪律问题，并促进平等和自由选课。",
+      "q3"
+    );
+
+    renderSentence("s4",
+      "Boys and girls in mixed schools are able to learn from each other and experience different types of skill and talent. They learn to live and work together from an early age and are consequently emotionally developed in their relations with the opposite sex.",
+      "男女混合学校的学生可以彼此学习、体验不同技能与天赋，并在与异性的交往中提升情商。",
+      "q4"
+    );
   </script>
 </body>
 </html>
