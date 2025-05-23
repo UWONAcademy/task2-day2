@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task 2 - Day 2</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom right, #5cb1a6, #6dc1b5);
+      font-family: 'Segoe UI', sans-serif;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      background: white;
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+    }
+
+    .section-title {
+      font-size: 20px;
+      margin-top: 30px;
+      margin-bottom: 12px;
+      color: #34495e;
+      border-bottom: 2px solid #4caf91;
+      padding-bottom: 4px;
+    }
+
+    .question {
+      margin-bottom: 25px;
+    }
+
+    .english {
+      font-size: 16px;
+      margin-bottom: 6px;
+      line-height: 1.6;
+    }
+
+    .translation {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 6px;
+    }
+
+    input[type="text"] {
+      width: 140px;
+      padding: 6px;
+      margin: 0 3px;
+      font-size: 15px;
+      border: 2px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .check-btn {
+      margin-top: 6px;
+      background: #4caf91;
+      color: white;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .feedback {
+      margin-top: 6px;
+      font-weight: bold;
+    }
+
+    .example {
+      margin-top: 4px;
+      font-style: italic;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .correct { color: green; }
+    .incorrect { color: red; }
+
+    @media (max-width: 600px) {
+      input[type="text"] {
+        width: 100px;
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Task 2 - Day 2</h2>
+
+    <div class="section-title">一. 句子填空</div>
+
+    <!-- 句子 1 -->
+    <div class="question">
+      <div class="english">
+        1. Technology is a powerful tool to <input type="text" id="s1_1"> students because it can make lessons more <input type="text" id="s1_2">. Students can do <input type="text" id="s1_3"> using online resources, and they can study whenever and wherever they want at their own <input type="text" id="s1_4">. They can learn skills useful for their future jobs; for example, they learn to write reports using a <input type="text" id="s1_5">.
+      </div>
+      <div class="translation">科技是一个能增加学生参与度的重要工具，因为它可以让课程变得更有趣。学生可以用网络资源作研究，按自己的节奏随时随地学习，还能学会未来工作需要的技能，比如使用文字处理器写报告。</div>
+      <button class="check-btn" onclick="checkSentence('s1', ['engage', 'interesting', 'research', 'pace', 'word processor'])">Check</button>
+      <div class="feedback" id="fb_s1"></div>
+    </div>
+
+    <!-- 句子 2 -->
+    <div class="question">
+      <div class="english">
+        2. Technology is no <input type="text" id="s2_1"> for a real teacher because an <input type="text" id="s2_2"> teacher knows what materials to choose and learners need a <input type="text" id="s2_3"> course.
+      </div>
+      <div class="translation">科技无法取代老师，因为有经验的老师知道如何选材料，而且学生需要有结构的课程。</div>
+      <button class="check-btn" onclick="checkSentence('s2', ['substitute', 'experienced', 'structured'])">Check</button>
+      <div class="feedback" id="fb_s2"></div>
+    </div>
+
+    <!-- 句子 3 -->
+    <div class="question">
+      <div class="english">
+        3. Single-sex schools reduce <input type="text" id="s3_1"> and encourage pupils to concentrate on their studies, thus preventing <input type="text" id="s3_2"> problems. This environment also allows more <input type="text" id="s3_3"> among students and gives them more <input type="text" id="s3_4"> to choose subjects freely without gender prejudice.
+      </div>
+      <div class="translation">单一性别学校减少分心、鼓励专注学习、防止纪律问题，并促进平等和自由选课。</div>
+      <button class="check-btn" onclick="checkSentence('s3', ['distractions', 'discipline', 'equality', 'opportunity'])">Check</button>
+      <div class="feedback" id="fb_s3"></div>
+    </div>
+
+    <!-- 句子 4 -->
+    <div class="question">
+      <div class="english">
+        4. Boys and girls in mixed schools are able to <input type="text" id="s4_1"> from each other and experience different types of <input type="text" id="s4_2"> and talent. They learn to live and work together from an early age and are consequently <input type="text" id="s4_3"> developed in their relations with the opposite sex.
+      </div>
+      <div class="translation">男女混合学校的学生可以彼此学习、体验不同技能与天赋，并在与异性的交往中提升情商。</div>
+      <button class="check-btn" onclick="checkSentence('s4', ['learn', 'skill', 'emotionally'])">Check</button>
+      <div class="feedback" id="fb_s4"></div>
+    </div>
+
+    <div class="section-title">二. 教育类短语（中译英 + 雅思例句）</div>
+
+    <!-- 短语练习 -->
+    <div class="question">
+      <div class="english">1. 上大学：</div>
+      <input type="text" id="p1">
+      <button class="check-btn" onclick="checkPhrase('p1', 'attend a university')">Check</button>
+      <div class="feedback" id="fb_p1"></div>
+    </div>
+
+    <div class="question">
+      <div class="english">2. 高素质/有经验的老师：</div>
+      <input type="text" id="p2">
+      <button class="check-btn" onclick="checkPhrase('p2', 'highly qualified teaching staff')">Check</button>
+      <div class="feedback" id="fb_p2"></div>
+    </div>
+
+    <div class="question">
+      <div class="english">3. 扩大知识面：</div>
+      <input type="text" id="p3">
+      <button class="check-btn" onclick="checkPhrase('p3', 'broaden one’s scope of knowledge')">Check</button>
+      <div class="feedback" id="fb_p3"></div>
+    </div>
+
+    <div class="question">
+      <div class="english">4. 学习全面的知识：</div>
+      <input type="text" id="p4">
+      <button class="check-btn" onclick="checkPhrase('p4', 'receive well-rounded education')">Check</button>
+      <div class="feedback" id="fb_p4"></div>
+    </div>
+
+    <div class="question">
+      <div class="english">5. 教育成果：</div>
+      <input type="text" id="p5">
+      <button class="check-btn" onclick="checkPhrase('p5', 'educational achievement')">Check</button>
+      <div class="feedback" id="fb_p5"></div>
+    </div>
+
+    <div class="question">
+      <div class="english">6. 获得就业技能：</div>
+      <input type="text" id="p6">
+      <button class="check-btn" onclick="checkPhrase('p6', 'gain employable skills')">Check</button>
+      <div class="feedback" id="fb_p6"></div>
+    </div>
+
+    <div class="question">
+      <div class="english">7. 参加课程活动：</div>
+      <input type="text" id="p7">
+      <button class="check-btn" onclick="checkPhrase('p7', 'participate in class activities')">Check</button>
+      <div class="feedback" id="fb_p7"></div>
+    </div>
+
+    <div class="question">
+      <div class="english">8. 学校课程：</div>
+      <input type="text" id="p8">
+      <button class="check-btn" onclick="checkPhrase('p8', 'school curriculum')">Check</button>
+      <div class="feedback" id="fb_p8"></div>
+    </div>
+  </div>
+
+  <script>
+    const examples = {
+      p1: {
+        en: "Many young people dream of attending a university abroad.",
+        zh: "许多年轻人梦想出国上大学。"
+      },
+      p2: {
+        en: "Highly qualified teaching staff play a vital role in students' success.",
+        zh: "高素质的教师队伍对学生成功至关重要。"
+      },
+      p3: {
+        en: "Reading widely can help students broaden one’s scope of knowledge.",
+        zh: "广泛阅读可以帮助学生扩大知识面。"
+      },
+      p4: {
+        en: "Public schools aim to ensure all students receive well-rounded education.",
+        zh: "公立学校旨在确保所有学生接受全面的教育。"
+      },
+      p5: {
+        en: "Parental involvement can improve students’ educational achievement.",
+        zh: "父母的参与可以提高学生的教育成果。"
+      },
+      p6: {
+        en: "Vocational training helps learners gain employable skills.",
+        zh: "职业培训帮助学习者获得就业技能。"
+      },
+      p7: {
+        en: "Students are encouraged to participate in class activities to boost engagement.",
+        zh: "鼓励学生参与课堂活动以提高参与度。"
+      },
+      p8: {
+        en: "The school curriculum should include both academic and practical subjects.",
+        zh: "学校课程应包括学术和实践科目。"
+      }
+    };
+
+    function checkSentence(id, answers) {
+      const feedback = document.getElementById("fb_" + id);
+      const inputs = answers.map((_, i) => document.getElementById(`${id}_${i + 1}`));
+      const values = inputs.map(input => input.value.trim().toLowerCase());
+      const correct = answers.every((ans, i) => values[i] === ans.toLowerCase());
+      feedback.innerHTML = correct
+        ? "<span class='correct'>✔ 正确！</span>"
+        : "<span class='incorrect'>✘ 错误</span> 正确答案：" + answers.join(" / ");
+    }
+
+    function checkPhrase(id, answer) {
+      const feedback = document.getElementById("fb_" + id);
+      const value = document.getElementById(id).value.trim().toLowerCase();
+      const correctAnswer = answer.toLowerCase();
+      const example = examples[id];
+
+      let html = "";
+      if (value === correctAnswer) {
+        html += `<span class='correct'>✔ 正确！</span>`;
+      } else {
+        html += `<span class='incorrect'>✘ 错误</span> 正确答案：${answer}`;
+      }
+
+      if (example) {
+        html += `<div class='example'>例句：${example.en}<br>翻译：${example.zh}</div>`;
+      }
+
+      feedback.innerHTML = html;
+    }
+  </script>
+</body>
+</html>
